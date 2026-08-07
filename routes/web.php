@@ -19,11 +19,14 @@ use Illuminate\Support\Facades\Artisan;
 */
 
 Route::get('/', function () {
-    
+    $portfolio = DB::table('portfolio_hdr')
+        ->whereIn('category', ['web-sites', 'ui-ux-design'])
+        ->orderByRaw("CASE WHEN category = 'web-sites' THEN 0 WHEN category = 'ui-ux-design' THEN 1 ELSE 2 END")
+        ->orderByDesc('date')
+        ->orderByDesc('id')
+        ->get();
 
-    $portfolio = DB::table('portfolio_hdr')->latest()->get();
-
-    return view('welcome',compact('portfolio'));
+    return view('welcome', compact('portfolio'));
 });
 
 Route::get('fetchdetails',[PortfolioController::class, 'fetchdetails'])->name('fetchdetails');

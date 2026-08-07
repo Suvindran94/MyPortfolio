@@ -1,0 +1,13 @@
+# Keep deploys smaller. Do NOT ignore /vendor — run composer install before deploy.
+/node_modules
+/.git
+/tests
+/storage/logs
+/storage/framework/cache
+/storage/framework/sessions
+/storage/framework/views
+/.env
+/.env.*
+/database/supabase_seed.sql
+/phpunit.xml
+/README.md

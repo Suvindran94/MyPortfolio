@@ -13,7 +13,7 @@
 </head>
 
 <style>
- .myimage {
+.myimage {
     height: 400px !important;
 }
 
@@ -35,45 +35,278 @@
     height: auto; /* Maintain aspect ratio */
 }
 
-/* Portfolio cards - text-only with hover tooltip */
+/* Portfolio image cards */
+.portfolio-card-wrap {
+    margin-bottom: 22px;
+}
 .portfolio-card {
+    display: block;
     background: #fff;
     border: 1px solid rgba(0,0,0,.08);
     border-radius: 10px;
-    padding: 2rem 2.25rem;
-    margin-bottom: 1.5rem;
-    min-height: 140px;
-    transition: box-shadow .2s, border-color .2s;
-    cursor: default;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+    height: 100%;
+    text-align: left;
 }
-.portfolio-card:hover {
-    box-shadow: 0 6px 20px rgba(0,0,0,.1);
-    border-color: rgba(0,0,0,.12);
+.portfolio-card:hover,
+.portfolio-card:focus {
+    box-shadow: 0 10px 28px rgba(0,0,0,.12);
+    border-color: rgba(0,0,0,.14);
+    transform: translateY(-2px);
+    outline: none;
+}
+.portfolio-card-media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: #eceff3;
+    overflow: hidden;
+}
+.portfolio-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .45s ease;
+}
+.portfolio-card:hover .portfolio-card-media img {
+    transform: scale(1.06);
+}
+.portfolio-card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 24, 32, .42);
+    opacity: 0;
+    transition: opacity .25s ease;
+}
+.portfolio-card:hover .portfolio-card-overlay,
+.portfolio-card:focus .portfolio-card-overlay {
+    opacity: 1;
+}
+.portfolio-card-view {
+    color: #fff;
+    background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.55);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    letter-spacing: .02em;
+}
+.portfolio-card-body {
+    padding: 14px 16px 16px;
 }
 .portfolio-card-title {
-    font-size: 1.35rem;
+    font-size: 16px;
     font-weight: 600;
-    margin: 0 0 .5rem 0;
-    color: inherit;
-    line-height: 1.3;
+    margin: 0 0 6px;
+    line-height: 1.35;
+    color: #222;
 }
 .portfolio-card-meta {
-    font-size: 1.1rem;
-    opacity: .8;
-    margin-bottom: .5rem;
+    font-size: 13px;
+    opacity: .75;
+    margin: 0 0 10px;
+}
+.portfolio-card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
 }
 .portfolio-card-badge {
     display: inline-block;
-    font-size: .95rem;
-    padding: .35rem .75rem;
+    font-size: 12px;
+    padding: 4px 8px;
     background: rgba(0,0,0,.06);
-    border-radius: 6px;
-    margin-top: .5rem;
+    border-radius: 5px;
+    color: #444;
 }
-.popover { max-width: 380px; }
-.popover .popover-title { font-size: 1.15rem; margin-bottom: .5rem; }
-.popover .popover-content p { margin: 0 0 .5rem 0; font-size: 1rem; line-height: 1.55; }
-.popover .popover-content p:last-child { margin-bottom: 0; }
+/* Portfolio modal */
+#portfolio-modal .modal-dialog {
+    width: min(920px, 94vw);
+    margin: 24px auto;
+}
+#portfolio-modal .modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+}
+#portfolio-modal .modal-body {
+    display: block !important;
+    padding: 24px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+#portfolio-modal .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    z-index: 2;
+    font-size: 28px;
+    line-height: 1;
+    opacity: .55;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+}
+#portfolio-modal .modal-close:hover { opacity: 1; }
+#portfolio-modal .modal-title {
+    margin-bottom: 8px;
+    padding-right: 28px;
+}
+#portfolio-modal .modal-title h1 {
+    font-size: 28px;
+    margin: 0;
+    line-height: 1.3;
+}
+#portfolio-modal .modal-description {
+    margin-bottom: 16px;
+    opacity: .85;
+}
+#portfolio-modal .about-me-info {
+    margin-bottom: 18px;
+}
+#portfolio-modal .modal-images {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+#portfolio-modal .modal-images img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,.06);
+    margin: 0;
+    background: #f4f5f7;
+}
+#portfolio-modal .modal-images .modal-pdf-wrap {
+    grid-column: 1 / -1;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,.08);
+    overflow: hidden;
+    background: #f4f5f7;
+}
+#portfolio-modal .modal-images .modal-pdf-frame {
+    display: block;
+    width: 100%;
+    height: min(72vh, 820px);
+    border: 0;
+    background: #fff;
+}
+#portfolio-modal .modal-loading,
+#portfolio-modal .modal-empty-shots {
+    padding: 18px;
+    text-align: center;
+    opacity: .7;
+}
+#portfolio-modal .about-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+@media (min-width: 768px) {
+    #portfolio-modal .modal-images {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    #portfolio-modal .modal-images img:only-child,
+    #portfolio-modal .modal-images img:first-child:nth-last-child(1) {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 767px) {
+    .portfolio-card-overlay { display: none; }
+    .portfolio-card-title { font-size: 15px; }
+    #portfolio-modal .modal-dialog {
+        width: 100%;
+        margin: 0;
+    }
+    #portfolio-modal .modal-content {
+        border-radius: 0;
+        min-height: 100vh;
+    }
+    #portfolio-modal .modal-body {
+        padding: 18px 16px 28px;
+        max-height: 100vh;
+    }
+    #portfolio-modal .modal-title h1 {
+        font-size: 22px;
+    }
+    .portfolio-sort ul li {
+        display: inline-block;
+        margin: 0 12px 10px 0 !important;
+    }
+}
+
+/* Skills — clean inline list (matches site template) */
+#skills .skill-group {
+    margin-bottom: 28px;
+}
+#skills .skill-group h4 {
+    margin: 0 0 12px;
+    font-size: 18px;
+    line-height: 1.4;
+}
+#skills .skill-inline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+}
+#skills .skill-inline li {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    line-height: 1.35;
+    color: #666;
+}
+#skills .skill-inline img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+#skills .skill-group-divider {
+    border: 0;
+    border-top: 1px solid #efefef;
+    margin: 8px 0 28px;
+}
+@media (max-width: 767px) {
+    #skills .skill-group {
+        margin-bottom: 22px;
+    }
+    #skills .skill-group h4 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    #skills .skill-inline {
+        gap: 8px 14px;
+    }
+    #skills .skill-inline li {
+        font-size: 13px;
+    }
+}
+
+.footer .copyright p {
+    margin: 0;
+}
+.footer .footer-stack {
+    margin-top: 6px;
+    font-size: 13px;
+    opacity: 0.75;
+    letter-spacing: 0.02em;
+}
 </style>
 <body>
 
@@ -219,87 +452,111 @@
                 </div>
             </div>
             <div class="col-md-8">
+                @php
+                    $si = fn (string $slug, string $color = '111111') => "https://cdn.simpleicons.org/{$slug}/{$color}";
+                    $di = fn (string $path) => "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$path}";
+                    $fav = fn (string $domain) => "https://www.google.com/s2/favicons?domain={$domain}&sz=64";
+                    $skillGroups = [
+                        'Web Development' => [
+                            ['PHP', $si('php', '777BB4')],
+                            ['Laravel', $si('laravel', 'FF2D20')],
+                            ['CodeIgniter', $si('codeigniter', 'EF4223')],
+                            ['Livewire', $si('livewire', 'FB70A9')],
+                            ['Python', $si('python', '3776AB')],
+                            ['Composer', $si('composer', '885630')],
+                            ['Blade', $si('laravel', 'FF2D20')],
+                            ['Eloquent', $si('laravel', 'FF2D20')],
+                            ['REST APIs', $si('swagger', '85EA2D')],
+                        ],
+                        'Frontend Development' => [
+                            ['HTML5', $si('html5', 'E34F26')],
+                            ['CSS3', $si('css', '1572B6')],
+                            ['JavaScript', $si('javascript', 'F7DF1E')],
+                            ['TypeScript', $si('typescript', '3178C6')],
+                            ['Vue.js', $si('vuedotjs', '4FC08D')],
+                            ['React', $si('react', '61DAFB')],
+                            ['Bootstrap', $si('bootstrap', '7952B3')],
+                            ['Tailwind CSS', $si('tailwindcss', '06B6D4')],
+                            ['jQuery', $si('jquery', '0769AD')],
+                            ['CSS Grid', $si('css', '1572B6')],
+                            ['Flexbox', $si('css', '1572B6')],
+                            ['AJAX', $si('javascript', 'F7DF1E')],
+                            ['Responsive Design', $si('googlechrome', '4285F4')],
+                        ],
+                        'Mobile Development' => [
+                            ['React Native', $si('react', '61DAFB')],
+                            ['Flutter', $si('flutter', '02569B')],
+                            ['Expo', $si('expo', '000020')],
+                            ['Android Studio', $si('androidstudio', '3DDC84')],
+                        ],
+                        'UI / UX Design' => [
+                            ['Photoshop', $di('photoshop/photoshop-plain.svg')],
+                            ['Figma', $si('figma', 'F24E1E')],
+                            ['Canva', $di('canva/canva-original.svg')],
+                            ['Proto.io', $fav('proto.io')],
+                            ['Photopea', $si('photopea', '18A497')],
+                            ['JustInMind', $fav('justinmind.com')],
+                        ],
+                        'Database' => [
+                            ['MySQL', $si('mysql', '4479A1')],
+                            ['Supabase', $si('supabase', '3FCF8E')],
+                            ['Firebase', $si('firebase', 'FFCA28')],
+                            ['SQL Server', $di('microsoftsqlserver/microsoftsqlserver-plain.svg')],
+                        ],
+                        'Reporting & Plugins' => [
+                            ['Chart.js', $si('chartdotjs', 'FF6384')],
+                            ['Tableau', 'https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tableau.svg'],
+                            ['KoolReport', $fav('koolreport.com')],
+                            ['Spatie', $fav('spatie.be')],
+                            ['mPDF', $fav('mpdf.github.io')],
+                            ['DomPDF', $si('laravel', 'FF2D20')],
+                            ['Telescope', $si('laravel', 'FF2D20')],
+                        ],
+                        'Payment Gateways' => [
+                            ['Stripe', $si('stripe', '635BFF')],
+                            ['ToyyibPay', $fav('toyyibpay.com')],
+                        ],
+                        'Hosting & Deployment' => [
+                            ['Hostinger', $si('hostinger', '673DE6')],
+                            ['Vercel', $si('vercel', '000000')],
+                            ['cPanel', $si('cpanel', 'FF6C2C')],
+                            ['Plesk', $si('plesk', '52BBEF')],
+                            ['DirectAdmin', $fav('directadmin.com')],
+                            ['Git', $si('git', 'F05032')],
+                            ['GitHub', $si('github', '181717')],
+                        ],
+                        'AI Development Tools' => [
+                            ['Cursor', $si('cursor', '000000')],
+                            ['GitHub Copilot', $si('githubcopilot', '000000')],
+                        ],
+                        'Others' => [
+                            ['Visual Basic', $di('visualstudio/visualstudio-plain.svg')],
+                        ],
+                    ];
+                    $groupIndex = 0;
+                @endphp
                 <div class="row">
-                    <div class="col-md-6 wow zoomIn">
-                        <div class="advantages-box">
-                            <h4>Web Development</h4>
-                            <div class="opacity-box">
-                                <p>PHP, JavaScript, Laravel, MySQL, Composer, Blade, Eloquent ORM, Artisan CLI, RESTful APIs, Git, MVC, OOP, Middleware, Laravel Mix, Queues &amp; Jobs, TypeScript, Python, API integration.</p>
+                    @foreach($skillGroups as $groupTitle => $skills)
+                        @php $groupIndex++; @endphp
+                        <div class="col-md-6 wow zoomIn">
+                            @if($groupIndex > 2)
+                                <hr class="skill-group-divider">
+                            @elseif($groupIndex === 2)
+                                <hr class="mobile-hr skill-group-divider">
+                            @endif
+                            <div class="advantages-box skill-group">
+                                <h4>{{ $groupTitle }}</h4>
+                                <ul class="skill-inline">
+                                    @foreach($skills as [$label, $icon])
+                                        <li>
+                                            <img src="{{ $icon }}" alt="" loading="lazy" onerror="this.style.display='none'">
+                                            <span>{{ $label }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
-                        
-                    </div>
-                    <div class="col-md-6 wow zoomIn">
-                        <hr class="mobile-hr">
-                        <div class="advantages-box">
-                            <h4>UI\UX Design</h4>
-                            <div class="opacity-box">
-                                <p>Photoshop, Figma, Canva, Proto.io, Photopea, JustInMind.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 wow zoomIn">
-                        <hr>
-                        <div class="advantages-box">
-                            <h4>Frontend Development</h4>
-                            <div class="opacity-box">
-                                <p>HTML, CSS, JavaScript, Bootstrap, jQuery, responsive design, cross-browser compatibility, AJAX, CSS Grid, Flexbox.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6 wow zoomIn">
-                        <hr>
-                        <div class="advantages-box">
-                            <h4>Reporting, Charts &amp; Plugins</h4>
-                            <div class="opacity-box">
-                                <p>KoolReport, Tableau, chartjs, Spatie (Roles & Permission), Spatie Simple Excel, Mpdf, DOMPDF, Laravel Telescope.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 wow zoomIn">
-                        <hr>
-                        <div class="advantages-box">
-                            <h4>Database</h4>
-                            <div class="opacity-box">
-                                <p>MySQL, Firebase, Microsoft SQL Server.</p>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-6 wow zoomIn">
-                        <hr>
-                        <div class="advantages-box">
-                            <h4>Mobile Development</h4>
-                            <div class="opacity-box">
-                                <p>Flutter Flow, React Native, Expo, Android Studio.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 wow zoomIn">
-                        <hr>
-                        <div class="advantages-box">
-                            <h4>Others</h4>
-                            <div class="opacity-box">
-                                <p>CodeIgniter, Visual Basic, GitHub, Plesk, Hostinger, YeahHost, cPanel, NetBeans, Eclipse, ToyyibPay.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 wow zoomIn">
-                        <hr>
-                        <div class="advantages-box">
-                            <h4>AI Development Tools</h4>
-                            <div class="opacity-box">
-                                <p>Cursor, GitHub Copilot.</p>
-                            </div>
-                        </div>
-                    </div>
-
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -598,7 +855,7 @@
                 <div class="section-sidebar">
                     <h2><span class="point">Portfolio</span></h2>
                     <div class="opacity-box">
-                        <p>Selected projects from company work, freelance, and academic projects. Hover over a project for details.</p>
+                        <p>Selected company and freelance projects. Tap a project to view screenshots and details.</p>
                     </div>
                 </div>
             </div>
@@ -610,7 +867,6 @@
                         <li class="colored-link" data-mixitup-control data-filter="all">All projects</li>
                         <li class="colored-link" data-mixitup-control data-filter=".web-sites">Company Project</li>
                         <li class="colored-link" data-mixitup-control data-filter=".ui-ux-design">Freelance Project</li>
-                        <li class="colored-link" data-mixitup-control data-filter=".frontend">Final Year Project</li>
                     </ul>
                 </div>
             </div>
@@ -624,28 +880,39 @@
                             $categoryLabel = match($port->category ?? '') {
                                 'web-sites' => 'Company Project',
                                 'ui-ux-design' => 'Freelance Project',
-                                'frontend' => 'Final Year Project',
                                 default => 'Project',
                             };
-                            $tooltipDesc = e($port->description ?? '');
-                            $tooltipStack = e($port->stack ?? '');
-                            $dateDisplay = $port->date_display ?? Carbon\Carbon::parse($port->date)->format('F Y');
+                            $dateDisplay = $port->date
+                                ? Carbon\Carbon::parse($port->date)->format('F Y')
+                                : '';
+                            $cover = $port->image
+                                ? asset('media/portfolio-images/' . rawurlencode($port->image))
+                                : asset('media/portfolio-images/CARS.png');
                         @endphp
-                        <div class="col-md-6 col-sm-6 mix {{ $port->category ?? '' }} wow zoomIn portfolio-card-wrap">
-                            <div class="portfolio-card portfolio-tooltip" 
-                                 data-id="{{ $port->id }}"
-                                 data-toggle="popover" 
-                                 data-trigger="hover" 
-                                 data-placement="top"
-                                 data-html="true"
-                                 data-title="{{ $port->title }}"
-                                 data-description="{{ $tooltipDesc }}"
-                                 data-stack="{{ $tooltipStack }}"
-                                 data-date="{{ $dateDisplay }}">
-                                <h4 class="portfolio-card-title">{{ $port->title }}</h4>
-                                <p class="portfolio-card-meta">{{ $dateDisplay }}</p>
-                                <span class="portfolio-card-badge">{{ $categoryLabel }}</span>
-                            </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 mix {{ $port->category ?? '' }} wow zoomIn portfolio-card-wrap">
+                            <article class="portfolio-card"
+                                     role="button"
+                                     tabindex="0"
+                                     data-id="{{ $port->id }}"
+                                     data-title="{{ $port->title }}"
+                                     data-cover="{{ $cover }}"
+                                     aria-label="View {{ $port->title }}">
+                                <div class="portfolio-card-media">
+                                    <img src="{{ $cover }}" alt="{{ $port->title }} screenshot" loading="lazy">
+                                    <div class="portfolio-card-overlay">
+                                        <span class="portfolio-card-view">View project</span>
+                                    </div>
+                                </div>
+                                <div class="portfolio-card-body">
+                                    <h4 class="portfolio-card-title">{{ $port->title }}</h4>
+                                    @if($dateDisplay)
+                                        <p class="portfolio-card-meta">{{ $dateDisplay }}</p>
+                                    @endif
+                                    <div class="portfolio-card-footer">
+                                        <span class="portfolio-card-badge">{{ $categoryLabel }}</span>
+                                    </div>
+                                </div>
+                            </article>
                         </div>
                         @empty
                         <div class="col-md-12">
@@ -726,7 +993,8 @@
         <div class="row">
             <div class="col-md-12 wow zoomIn">
                 <div class="copyright">
-                    <p>Copyright 2026 Suvindran. Build with Laravel 10.</p>
+                    <p>&copy; {{ date('Y') }} Suvindran. All rights reserved.</p>
+                    <p class="footer-stack">Built with Laravel 10 · Supabase · Vercel</p>
                 </div>
             </div>
         </div>
@@ -734,12 +1002,13 @@
 </footer>
 
 <!-- Portfolio modal -->
-<div class="modal fade" id="portfolio-modal" tabindex="-1" role="dialog" aria-labelledby="portfolio-modal">
+<div class="modal fade" id="portfolio-modal" tabindex="-1" role="dialog" aria-labelledby="portfolio-modal-title">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" >
-            <div class="modal-body" data-name="patty">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">&times;</button>
                 <div class="modal-title">
-                    <h1><span class="point modaltitle"></span></h1>
+                    <h1 id="portfolio-modal-title"><span class="point modaltitle">Project</span></h1>
                 </div>
                 <div class="modal-description">
                     <p class="modaldesc"></p>
@@ -754,11 +1023,14 @@
                         <span class="projdate"></span>
                     </p>
                 </div>
+                <div class="modal-images" aria-live="polite">
+                    <div class="modal-loading">Loading screenshots…</div>
+                </div>
                 <div class="about-btns">
+                    <a href="#" class="site-btn project-link" target="_blank" rel="noopener" style="display:none;">Visit site</a>
                     <a href="#" class="site-btn gray-btn" data-dismiss="modal">Close</a>
                 </div>
             </div>
-          
         </div>
     </div>
 </div>
@@ -866,21 +1138,111 @@
 
 <script>
     $(document).ready(function() {
-        $('.portfolio-tooltip').popover({
-            trigger: 'hover',
-            html: true,
-            placement: 'top',
-            container: 'body',
-            title: function() { return $(this).data('title'); },
-            content: function() {
-                var desc = $(this).data('description') || '';
-                var stack = $(this).data('stack') || '';
-                var date = $(this).data('date') || '';
-                var html = '';
-                if (desc) html += '<p><strong>Description</strong><br>' + desc + '</p>';
-                if (stack) html += '<p><strong>Stack</strong> ' + stack + '</p>';
-                if (date) html += '<p><strong>Date</strong> ' + date + '</p>';
-                return html || '<p>No details available.</p>';
+        var mediaBase = @json(rtrim(asset('media'), '/'));
+
+        function mediaUrl(path) {
+            if (!path) return '';
+            return mediaBase + '/' + String(path).split('/').map(encodeURIComponent).join('/');
+        }
+
+        function isPdfUrl(src) {
+            return /\.pdf($|\?)/i.test(String(src || ''));
+        }
+
+        function renderGallery(files, fallbackCover) {
+            var $gallery = $('#portfolio-modal .modal-images');
+            $gallery.empty();
+
+            if (!files.length && fallbackCover) {
+                files = [fallbackCover];
+            }
+
+            if (!files.length) {
+                $gallery.html('<div class="modal-empty-shots">No screenshots available for this project yet.</div>');
+                return;
+            }
+
+            files.forEach(function(src) {
+                if (isPdfUrl(src)) {
+                    var $wrap = $('<div class="modal-pdf-wrap"></div>');
+                    $wrap.append(
+                        $('<iframe>', {
+                            class: 'modal-pdf-frame',
+                            src: src + '#view=FitH',
+                            title: 'Project UI PDF preview'
+                        })
+                    );
+                    $gallery.append($wrap);
+                    return;
+                }
+
+                $gallery.append(
+                    $('<img>', {
+                        src: src,
+                        alt: 'Project screenshot',
+                        loading: 'lazy'
+                    })
+                );
+            });
+        }
+
+        function openPortfolioModal($card) {
+            var id = $card.data('id');
+            var cover = $card.data('cover');
+            var title = $card.data('title') || 'Project';
+
+            $('#portfolio-modal .modaltitle').text(title);
+            $('#portfolio-modal .modaldesc').text('Loading project details…');
+            $('#portfolio-modal .stack').text('—');
+            $('#portfolio-modal .projdate').text('—');
+            $('#portfolio-modal .project-link').hide().attr('href', '#');
+            $('#portfolio-modal .modal-images').html('<div class="modal-loading">Loading preview…</div>');
+            $('#portfolio-modal').modal('show');
+
+            $.getJSON('{{ route('fetchdetails') }}', { id: id })
+                .done(function(res) {
+                    var header = res.header || {};
+                    var details = res.details || [];
+
+                    $('#portfolio-modal .modaltitle').text(header.title || title);
+                    $('#portfolio-modal .modaldesc').text(header.description || 'No description available.');
+                    $('#portfolio-modal .stack').text(header.stack || '—');
+
+                    if (header.date) {
+                        var d = new Date(header.date);
+                        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                        $('#portfolio-modal .projdate').text(
+                            isNaN(d.getTime()) ? header.date : (months[d.getMonth()] + ' ' + d.getFullYear())
+                        );
+                    } else {
+                        $('#portfolio-modal .projdate').text('—');
+                    }
+
+                    if (header.website_url) {
+                        $('#portfolio-modal .project-link').attr('href', header.website_url).show();
+                    }
+
+                    var files = details
+                        .map(function(item) { return mediaUrl(item.image); })
+                        .filter(Boolean);
+
+                    // Prefer gallery media (images or PDF); fall back to cover image
+                    renderGallery(files, cover);
+                })
+                .fail(function() {
+                    $('#portfolio-modal .modaldesc').text('Could not load project details. Please try again.');
+                    renderGallery([], cover);
+                });
+        }
+
+        $(document).on('click', '.portfolio-card', function() {
+            openPortfolioModal($(this));
+        });
+
+        $(document).on('keydown', '.portfolio-card', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openPortfolioModal($(this));
             }
         });
     });
